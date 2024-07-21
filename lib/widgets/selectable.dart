@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:shine/data/dummy_lessons.dart';
 import 'package:shine/data/selection_data.dart';
+import 'package:shine/screens/list_screen.dart';
 import 'package:shine/screens/selection.dart';
 
 class Selectable extends StatelessWidget {
-  const Selectable(this.index,{required this.selectables,super.key});
+  const Selectable(this.index, {required this.selectables, super.key});
   final int index;
   final List<String> selectables;
   @override
@@ -11,13 +13,28 @@ class Selectable extends StatelessWidget {
     return InkWell(
       borderRadius: BorderRadius.circular(10),
       onTap: () {
-        if(selectables == classes){
+        if (selectables == classes) {
+          dummy.clear();
+          dummy.add(classes[index]);
           Navigator.of(context).push(
-          MaterialPageRoute(
-            builder: (context) => SelectionScreen(
-                selectables: subjects, screenTitle: "Select the subject:"),
-          ),
-        );
+            MaterialPageRoute(
+              builder: (context) => SelectionScreen(
+                  selectables: subjects, screenTitle: "Select the subject:"),
+            ),
+          );
+        }
+        if (selectables == subjects) {
+          if(dummy.length >= 2){
+            dummy.removeLast();
+          }
+          dummy.add(subjects[index]);
+          loadData();
+          Navigator.of(context).push(
+            MaterialPageRoute(
+              builder: (context) =>
+                  const ListScreen(),
+            ),
+          );
         }
       },
       splashColor: Theme.of(context).colorScheme.primary,
