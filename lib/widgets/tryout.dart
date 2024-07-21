@@ -15,10 +15,10 @@ class TryOut extends StatelessWidget {
       children: [
         Container(
           margin: const EdgeInsets.symmetric(
-            vertical: 15,
+            vertical: 13,
           ),
           padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-          width: 170,
+          width: 190,
           child: Text(
             (mainData["body contents"] as List<String>)[tryOutIndex].toString(),
             style: GoogleFonts.laila(

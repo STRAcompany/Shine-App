@@ -1,4 +1,6 @@
+import 'package:shine/data/selection_data.dart';
 import 'package:shine/screens/library.dart';
+import 'package:shine/screens/selection.dart';
 
 List<Map<String,Object>> tryoutData = [
     {
@@ -17,7 +19,7 @@ List<Map<String,Object>> tryoutData = [
         "Want to know a chapter's summary?",
         "Want to have help in understanding the chapter?" 
         ],
-      "navigation address":  const LibraryScreen() 
+      "navigation address": SelectionScreen(screenTitle: "Notes",selectables: classes,)
     },
     {
       "name": "Reference",
@@ -26,7 +28,7 @@ List<Map<String,Object>> tryoutData = [
         "Want to learn more than what you got?",
         "We have got some books you would like.",
         ],
-      "navigation address":  const LibraryScreen() 
+      "navigation address": SelectionScreen(screenTitle: "Reference",selectables:classes,)
     },
     {
       "name": "Music",
@@ -53,6 +55,6 @@ List<Map<String,Object>> tryoutData = [
         "Want to check your Brains potential?",
         "We have a bank that lends you questions." 
         ],
-      "navigation address":  const LibraryScreen() 
+      "navigation address": SelectionScreen(screenTitle: "Question Bank",selectables: classes,) 
     },    
 ];

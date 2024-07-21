@@ -24,8 +24,23 @@ class Shine extends StatelessWidget {
       appBar: AppBar(
         title: const Text("Shine"),
         actions: [
-          TextButton(onPressed: () {}, child: const Text("Home")),
-          TextButton(onPressed: () {}, child: const Text("About us")),
+          TextButton(
+            onPressed: () {},
+            child: Text(
+              "Home",
+              style: Theme.of(context).textTheme.labelLarge!.copyWith(
+                    color: Theme.of(context).colorScheme.primary,
+                  ),
+            )),
+          TextButton(
+            onPressed: () {},
+            child: Text(
+              "About us",
+              style: Theme.of(context).textTheme.labelLarge!.copyWith(
+                    color: Theme.of(context).colorScheme.primary,
+                  ),
+            ),
+          ),
           // IconButton(onPressed: () {}, icon: const Icon(Icons.menu)),
         ],
       ),
