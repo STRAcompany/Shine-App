@@ -1,6 +1,7 @@
 import 'package:shine/data/selection_data.dart';
 import 'package:shine/screens/library.dart';
 import 'package:shine/screens/selection.dart';
+import 'package:shine/screens/time_table.dart';
 
 List<Map<String,Object>> tryoutData = [
     {
@@ -46,7 +47,7 @@ List<Map<String,Object>> tryoutData = [
         "Having a schedule is way better than doing stuff on time.",
         "Lets conquer time!" 
         ],
-      "navigation address":  const LibraryScreen() 
+      "navigation address":  const TimeTableScreen() 
     },
     {
       "name": "Question bank",
