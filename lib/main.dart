@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:shine/screens/shine.dart';
+import 'package:shine/firebase_options.dart';
+import 'package:firebase_core/firebase_core.dart';
 var darkcolorScheme = ColorScheme.fromSeed(seedColor: const Color.fromARGB(255, 220, 173 , 5));
 var colorScheme= ColorScheme.fromSeed(seedColor: const Color.fromARGB(255, 5, 116, 220));
 var lightcolorScheme = const ColorScheme(
@@ -21,8 +23,11 @@ List<Color> textColor =[Colors.grey,] ;
 // var blueColorScheme = ColorScheme.fromSeed(seedColor: const Color.fromARGB(255, 68, 171, 255));
 
 
-void main() {
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   runApp(
      MaterialApp(
       darkTheme: ThemeData.dark().copyWith(

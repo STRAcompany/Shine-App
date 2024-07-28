@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "960096088595",
+    "firebase_url": "https://shine-stra-default-rtdb.firebaseio.com",
+    "project_id": "shine-stra",
+    "storage_bucket": "shine-stra.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:960096088595:android:09d9a9d53f05615fa985e6",
+        "android_client_info": {
+          "package_name": "com.example.shine"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD9e5AHfUTQHf4TDiuDkGQOArsN3yHqAug"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

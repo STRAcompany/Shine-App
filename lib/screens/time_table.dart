@@ -1,6 +1,9 @@
+import 'package:http/http.dart' as http;
+
 import 'package:flutter/material.dart';
 import 'package:shine/data/days_of_the_week.dart';
 import 'package:shine/data/time_table_timedata.dart';
+import 'package:shine/data/time_table_todos.dart';
 import 'package:shine/widgets/time_table_text_input.dart';
 import 'package:shine/widgets/time_table_timepicker.dart';
 
@@ -16,8 +19,20 @@ class _TimeTableScreenState extends State<TimeTableScreen> {
   int fieldsNumber = 35;
   int currentTimeField = 1;
   String time = "Select Time";
+
   void homePop(context) {
     Navigator.of(context).pop();
+  }
+  void _saved(){
+    final url = Uri.http("https://shine-stra-default-rtdb.firebaseio.com/");
+    final validate = _formKey.currentState!.validate();
+    if (validate && !timeList.contains("Select Time")){
+      _formKey.currentState!.save();
+      http.post(url,body: {
+        "time list" : timeList,
+        "todo list": todoList,
+      });
+    };
   }
 
   void _reset() {
@@ -133,7 +148,7 @@ class _TimeTableScreenState extends State<TimeTableScreen> {
                     if (index < rowNumber) {
                         return TTTimePicker(selectTime, index, time: timeList[index]);
                     }
-                    return TTTextInput("Enter ToDo");
+                    return TTTextInput("Enter ToDo",index);
                   },
                   itemCount: fieldsNumber,
                   scrollDirection: Axis.horizontal,
@@ -164,7 +179,7 @@ class _TimeTableScreenState extends State<TimeTableScreen> {
                 children: [
                   ElevatedButton(onPressed: _reset, child: const Text("Reset")),
                   const SizedBox(width: 10),
-                  ElevatedButton(onPressed: () {}, child: const Text("Save")),
+                  ElevatedButton(onPressed: _saved, child: const Text("Save")),
                 ],
               ),
             ],
