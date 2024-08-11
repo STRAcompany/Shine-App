@@ -1,15 +1,20 @@
+
+
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:shine/data/library_list.dart';
 
 class LibraryScreen extends StatelessWidget {
-  const LibraryScreen({super.key});
+  LibraryScreen({super.key});
+  final firestore =  FirebaseStorage.instance;
+  var file;
+
   void homePop(context) {
     Navigator.of(context).pop();
 //     Navigator.popUntil(context, (route) {
 //   return route.settings.arguments == const Shine();
 // });
   }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -45,6 +50,9 @@ class LibraryScreen extends StatelessWidget {
             return Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
               child: ListTile(
+                onTap: () async {
+                  file = await firestore.ref().getData();
+                },
                 leading: const Icon(Icons.menu_book),
                 title: Text(bookList[index]),
                 tileColor: Theme.of(context).colorScheme.secondaryContainer,

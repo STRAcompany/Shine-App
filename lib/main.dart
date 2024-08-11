@@ -1,8 +1,11 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:shine/screens/auth.dart';
 import 'package:shine/screens/shine.dart';
 import 'package:shine/firebase_options.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:shine/screens/splash.dart';
 var darkcolorScheme = ColorScheme.fromSeed(seedColor: const Color.fromARGB(255, 220, 173 , 5));
 var colorScheme= ColorScheme.fromSeed(seedColor: const Color.fromARGB(255, 5, 116, 220));
 var lightcolorScheme = const ColorScheme(
@@ -71,7 +74,18 @@ void main() async {
         ),
       ),
       themeMode: ThemeMode.dark,
-     home: const Shine(),
+     home: StreamBuilder(
+       stream: FirebaseAuth.instance.authStateChanges(),
+       builder: (context, snapshot) {
+        if(snapshot.connectionState == ConnectionState.waiting){
+          return const SplashScreen();
+        }
+        if(snapshot.hasData){
+          return const Shine();
+        }
+         return const AuthScreen();
+       }
+     ),
     ),
   );
 }

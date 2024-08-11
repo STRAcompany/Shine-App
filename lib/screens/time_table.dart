@@ -32,7 +32,7 @@ class _TimeTableScreenState extends State<TimeTableScreen> {
         "time list" : timeList,
         "todo list": todoList,
       });
-    };
+    }
   }
 
   void _reset() {

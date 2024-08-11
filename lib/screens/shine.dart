@@ -1,4 +1,5 @@
 import 'dart:math';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:shine/data/tryout_data.dart';
 import 'package:flutter/material.dart';
 import 'package:shine/data/greetings.dart';
@@ -25,13 +26,13 @@ class Shine extends StatelessWidget {
         title: const Text("Shine"),
         actions: [
           TextButton(
-            onPressed: () {},
-            child: Text(
-              "Home",
-              style: Theme.of(context).textTheme.labelLarge!.copyWith(
-                    color: Theme.of(context).colorScheme.primary,
-                  ),
-            )),
+              onPressed: () {},
+              child: Text(
+                "Home",
+                style: Theme.of(context).textTheme.labelLarge!.copyWith(
+                      color: Theme.of(context).colorScheme.primary,
+                    ),
+              )),
           TextButton(
             onPressed: () {},
             child: Text(
@@ -41,7 +42,15 @@ class Shine extends StatelessWidget {
                   ),
             ),
           ),
-          // IconButton(onPressed: () {}, icon: const Icon(Icons.menu)),
+          IconButton(
+            onPressed: () {
+              FirebaseAuth.instance.signOut();
+            },
+            icon: Icon(
+              Icons.exit_to_app,
+              color: Theme.of(context).colorScheme.primary,
+            ),
+          ),
         ],
       ),
       body: Column(
