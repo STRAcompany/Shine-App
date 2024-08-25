@@ -8,20 +8,6 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:shine/screens/splash.dart';
 var darkcolorScheme = ColorScheme.fromSeed(seedColor: const Color.fromARGB(255, 220, 173 , 5));
 var colorScheme= ColorScheme.fromSeed(seedColor: const Color.fromARGB(255, 5, 116, 220));
-var lightcolorScheme = const ColorScheme(
-  brightness: Brightness.light, 
-  primary: Color.fromARGB(255, 0, 115, 255), 
-  onPrimary: Color.fromARGB(255, 93, 0, 199), 
-  secondary: Color.fromARGB(255, 22, 228, 255), 
-  onSecondary: Color.fromARGB(255, 255, 27, 179), 
-  error: Color.fromARGB(255, 255, 51, 36), 
-  onError: Color.fromARGB(255, 255, 0, 0), 
-  background: Colors.white, 
-  onBackground: Color.fromARGB(255, 18, 200, 255), 
-  surface: Colors.lightGreen, 
-  onSurface: Color.fromARGB(255, 239, 255, 8),
-  );
-List<Color> textColor =[Colors.grey,] ;
 // var yellowColorScheme = ColorScheme.fromSeed(seedColor: const Color.fromARGB(255, 234, 255, 0));
 // var blueColorScheme = ColorScheme.fromSeed(seedColor: const Color.fromARGB(255, 68, 171, 255));
 

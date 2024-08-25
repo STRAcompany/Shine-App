@@ -11,7 +11,7 @@ List<Map<String,Object>> tryoutData = [
         "Want to learn a life lesson?",
         "Want to know about a great person?" 
         ],
-      "navigation address": LibraryScreen()
+      "navigation address": const LibraryScreen()
     },
     {
       "name": "Notes",
@@ -38,7 +38,7 @@ List<Map<String,Object>> tryoutData = [
         "Stressed out ? listen to some music.",
         "Do you know what doctors say? \"music is good for health \"", 
         ],
-      "navigation address":  LibraryScreen() 
+      "navigation address":  const LibraryScreen() 
     },
     {
       "name": "Time table",
