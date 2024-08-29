@@ -20,7 +20,6 @@ void main() async {
   runApp(
      MaterialApp(
       darkTheme: ThemeData.dark().copyWith(
-        useMaterial3: true,
         textTheme: GoogleFonts.lailaTextTheme().copyWith(
           titleLarge: GoogleFonts.laila(
             color: darkcolorScheme.primary,
@@ -36,7 +35,7 @@ void main() async {
 
         ),
         colorScheme: darkcolorScheme,
-        scaffoldBackgroundColor: darkcolorScheme.onBackground,
+        scaffoldBackgroundColor: darkcolorScheme.onSurface,
         appBarTheme: const AppBarTheme().copyWith(
           backgroundColor: darkcolorScheme.onPrimaryContainer,
           foregroundColor: darkcolorScheme.primary,
@@ -48,7 +47,7 @@ void main() async {
         elevatedButtonTheme: ElevatedButtonThemeData(
           style: ElevatedButton.styleFrom(
             foregroundColor: darkcolorScheme.primary,
-            backgroundColor: darkcolorScheme.onBackground,
+            backgroundColor: darkcolorScheme.onSurface,
             textStyle: GoogleFonts.poppins().copyWith(
               fontSize: 16,
               fontWeight: FontWeight.w400,

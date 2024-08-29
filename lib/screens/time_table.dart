@@ -1,11 +1,16 @@
 // import 'package:http/http.dart' as http;
 
+// ignore_for_file: prefer_typing_uninitialized_variables
+
+import 'package:firebase_database/firebase_database.dart';
+
 import 'package:flutter/material.dart';
 import 'package:shine/data/days_of_the_week.dart';
 import 'package:shine/data/time_table_timedata.dart';
 import 'package:shine/data/time_table_todos.dart';
-import 'package:shine/widgets/time_table_text_picker.dart';
-import 'package:shine/widgets/time_table_timepicker.dart';
+import 'package:shine/screens/auth.dart';
+import 'package:shine/widgets/time_table_notset.dart';
+import 'package:shine/widgets/time_table_set.dart';
 
 class TimeTableScreen extends StatefulWidget {
   const TimeTableScreen({super.key});
@@ -14,17 +19,30 @@ class TimeTableScreen extends StatefulWidget {
 }
 
 class _TimeTableScreenState extends State<TimeTableScreen> {
+  bool? isSet;
   int rowNumber = 5;
   final columnNumber = 7;
   int fieldsNumber = 35;
   int currentTimeField = 1;
   String time = "Select Time";
+  var setTimeValue;
+  var setTodoValue;
+  var fieldno;
+  var rowno;
+  final String user = firebase.currentUser!.uid;
+  DatabaseReference ref = FirebaseDatabase.instance.ref('users');
 
   void homePop(context) {
     Navigator.of(context).pop();
   }
 
-  void _saved() {}
+  void _saved() {
+    ref.child("$user/time_table/timeList").set(timeList);
+    ref.child("$user/time_table/todoList").set(todoList);
+    ref.child("$user/time_table/fieldno").set(fieldsNumber);
+    ref.child("$user/time_table/rowno").set(rowNumber);
+    checkSet();
+  }
 
   void _reset() {
     setState(() {
@@ -35,7 +53,7 @@ class _TimeTableScreenState extends State<TimeTableScreen> {
     });
   }
 
-  void selectTime(index) async {
+  void selectTime(int index) async {
     var currenttime = await showTimePicker(
         context: context, initialTime: const TimeOfDay(hour: 5, minute: 00));
     setState(() {
@@ -44,10 +62,10 @@ class _TimeTableScreenState extends State<TimeTableScreen> {
     });
   }
 
-  void selectToDo(index) async {
+  void selectToDo(int index) async {
     var textEditingController = TextEditingController();
     showMenu(
-        color: Theme.of(context).colorScheme.onBackground,
+        color: Theme.of(context).colorScheme.onSurface,
         context: context,
         position: RelativeRect.fromDirectional(
             textDirection: TextDirection.ltr,
@@ -129,6 +147,38 @@ class _TimeTableScreenState extends State<TimeTableScreen> {
     );
   }
 
+  void checkSet() async {
+    isSet = null;
+    var todo = await ref.child('$user/time_table/todoList').get();
+    var time = await ref.child('$user/time_table/timeList').get();
+    var fields = await ref.child('$user/time_table/fieldno').get();
+    var rows = await ref.child('$user/time_table/rowno').get();
+    if (todo.value != null || time.value != null) {
+      setState(() {
+        isSet = true;
+        setTimeValue = time.value;
+        setTodoValue = todo.value;
+        fieldno = fields.value;
+        rowno = rows.value;
+      });
+    } else {
+      setState(() {
+        isSet = false;
+      });
+    }
+  }
+
+  void deleteSet() async {
+    await ref.child("$user/time_table").remove();
+    checkSet();
+  }
+
+  @override
+  void initState() {
+    checkSet();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -158,77 +208,89 @@ class _TimeTableScreenState extends State<TimeTableScreen> {
       ),
       body: Padding(
         padding: const EdgeInsets.all(10),
-        child: ListView(
-          children: [
-            Text(
-              "Time Table",
-              style: Theme.of(context).textTheme.titleLarge,
-              textAlign: TextAlign.center,
-            ),
-            const SizedBox(height: 20),
-            SizedBox(
-              height: 400,
-              child: GridView.builder(
-                shrinkWrap: true,
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: rowNumber,
-                  childAspectRatio: 1 / 3,
-                  // mainAxisSpacing: 10,
-                ),
-                itemBuilder: (context, index) {
-                  if (index % rowNumber == 0) {
-                    double day = index / rowNumber;
-                    return Container(
-                        decoration: BoxDecoration(
-                          border: Border.all(
-                            width: 2,
-                            color: Theme.of(context).colorScheme.primary,
-                          ),
-                        ),
-                        alignment: Alignment.center,
-                        child: Text(
-                          days[day.round()],
-                          style: const TextStyle(
-                            fontSize: 24,
-                            fontWeight: FontWeight.bold,
-                          ),
-                          textAlign: TextAlign.center,
-                        ));
-                  }
-                  if (index < rowNumber) {
-                    return TTTimePicker(selectTime, index,
-                        time: timeList[index]);
-                  }
-                  return TTTextPicker(selectToDo, index, todoList[index - rowNumber]);
-                },
-                itemCount: fieldsNumber,
-                scrollDirection: Axis.horizontal,
-              ),
-            ),
-            const SizedBox(
-              height: 20,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                ElevatedButton.icon(
-                  onPressed: _addRow,
-                  label: const Text("Add Rows"),
-                  icon: const Icon(Icons.add),
-                ),
-                const SizedBox(width: 10),
-              ],
-            ),
-            const SizedBox(height: 10),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                ElevatedButton(onPressed: _reset, child: const Text("Reset")),
-                const SizedBox(width: 10),
-                ElevatedButton(onPressed: _saved, child: const Text("Save")),
-              ],
-            ),
-          ],
+        child: Builder(
+          builder: (context) {
+            if (isSet == true) {
+              return ListView(
+                children: [
+                  Text(
+                    "Time Table",
+                    style: Theme.of(context).textTheme.titleLarge,
+                    textAlign: TextAlign.center,
+                  ),
+                  const SizedBox(height: 20),
+                  SizedBox(
+                    height: 400,
+                    child: TimeTableSet(
+                      days: days,
+                      fieldsNumber: fieldno,
+                      rowNumber: rowno,
+                      setTimeValue: setTimeValue,
+                      setTodoValue: setTodoValue,
+                    ),
+                  ),
+                  const SizedBox(height: 10),
+                  Row(
+                    children: [
+                      ElevatedButton(
+                        onPressed: deleteSet,
+                        child: const Text("Delete"),
+                      ),
+                      const Expanded(child: SizedBox(),),
+                    ],
+                  ),
+                ],
+              );
+            }
+            if (isSet == false) {
+              return ListView(
+                children: [
+                  Text(
+                    "Time Table",
+                    style: Theme.of(context).textTheme.titleLarge,
+                    textAlign: TextAlign.center,
+                  ),
+                  const SizedBox(height: 20),
+                  SizedBox(
+                    height: 400,
+                    child: TimeTableNotSet(
+                      days: days,
+                      fieldsNumber: fieldsNumber,
+                      rowNumber: rowNumber,
+                      selectTime: selectTime,
+                      selectToDo: selectToDo,
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      ElevatedButton.icon(
+                        onPressed: _addRow,
+                        label: const Text("Add Rows"),
+                        icon: const Icon(Icons.add),
+                      ),
+                      const SizedBox(width: 10),
+                    ],
+                  ),
+                  const SizedBox(height: 10),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      ElevatedButton(
+                          onPressed: _reset, child: const Text("Reset")),
+                      const SizedBox(width: 10),
+                      ElevatedButton(
+                          onPressed: _saved, child: const Text("Save")),
+                    ],
+                  ),
+                ],
+              );
+            }
+            return const Center(child: CircularProgressIndicator());
+          },
         ),
       ),
     );

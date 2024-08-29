@@ -20,15 +20,21 @@ class TTTimePicker extends StatelessWidget {
           ),
         ),
         alignment: Alignment.center,
-        child:SingleChildScrollView(
+        child: SingleChildScrollView(
           scrollDirection: Axis.horizontal,
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Icon(Icons.access_time,color: Theme.of(context).colorScheme.primary,),
+              Icon(
+                Icons.access_time,
+                color: Theme.of(context).colorScheme.primary,
+              ),
               const SizedBox(width: 10),
-              Text(time,overflow: TextOverflow.fade,),
+              Text(
+                time,
+                overflow: TextOverflow.fade,
+              ),
             ],
           ),
         ),

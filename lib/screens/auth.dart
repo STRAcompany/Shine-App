@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -75,7 +77,7 @@ class _AuthScreenState extends State<AuthScreen> {
                     borderRadius: BorderRadius.circular(10),
                     gradient: LinearGradient(
                       colors: [
-                        Theme.of(context).colorScheme.onBackground,
+                        Theme.of(context).colorScheme.onSurface,
                         Theme.of(context).colorScheme.primary,
                       ],
                       begin: Alignment.topLeft,
@@ -90,7 +92,7 @@ class _AuthScreenState extends State<AuthScreen> {
                         decoration: InputDecoration(
                           border: OutlineInputBorder(
                             borderSide: BorderSide(
-                              color: Theme.of(context).colorScheme.onBackground,
+                              color: Theme.of(context).colorScheme.onSurface,
                               width: 2,
                             ),
                           ),
@@ -117,7 +119,7 @@ class _AuthScreenState extends State<AuthScreen> {
                         decoration: InputDecoration(
                           border: OutlineInputBorder(
                             borderSide: BorderSide(
-                              color: Theme.of(context).colorScheme.onBackground,
+                              color: Theme.of(context).colorScheme.onSurface,
                               width: 2,
                             ),
                           ),
@@ -165,7 +167,7 @@ class _AuthScreenState extends State<AuthScreen> {
                           TextButton(
                             style: const ButtonStyle(
                               padding:
-                                  MaterialStatePropertyAll(EdgeInsets.all(5)),
+                                  WidgetStatePropertyAll(EdgeInsets.all(5)),
                             ),
                             onPressed: () {
                               setState(() {

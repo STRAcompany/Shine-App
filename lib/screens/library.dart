@@ -1,6 +1,7 @@
-// import 'package:firebase_storage/firebase_storage.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:shine/data/library_list.dart';
+import 'package:shine/screens/pdf_view.dart';
 
 class LibraryScreen extends StatefulWidget {
   const LibraryScreen({super.key});
@@ -11,8 +12,19 @@ class LibraryScreen extends StatefulWidget {
 
 class _LibraryScreenState extends State<LibraryScreen> {
   final searchController = SearchController();
+  final storage = FirebaseStorage.instance.ref();
   void homePop(context) {
     Navigator.of(context).pop();
+  }
+
+  void showPDF() async {
+    final url = await storage.child("pdfs/jesc101 - Copy.pdf").getDownloadURL();
+    // ignore: use_build_context_synchronously
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context) => PDFViewScreen(url),
+      ),
+    );
   }
 
   @override
@@ -47,22 +59,22 @@ class _LibraryScreenState extends State<LibraryScreen> {
         child: ListView.builder(
           itemCount: bookList.length,
           itemBuilder: (context, index) {
-            var currentBookList = bookList; 
+            var currentBookList = bookList;
             if (index == 0) {
               return Padding(
                 padding:
                     const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                 child: SearchBar(
-                  padding: const MaterialStatePropertyAll(
+                  padding: const WidgetStatePropertyAll(
                       EdgeInsets.symmetric(horizontal: 20)),
                   leading: Icon(
                     Icons.search,
                     color: Theme.of(context).colorScheme.primary,
                   ),
                   hintText: "Search Books",
-                  backgroundColor: MaterialStatePropertyAll(
-                      Theme.of(context).colorScheme.onBackground),
-                  textStyle: MaterialStatePropertyAll(
+                  backgroundColor: WidgetStatePropertyAll(
+                      Theme.of(context).colorScheme.onSurface),
+                  textStyle: WidgetStatePropertyAll(
                     Theme.of(context).textTheme.bodyMedium!.copyWith(
                           color: Theme.of(context).colorScheme.primary,
                         ),
@@ -71,17 +83,17 @@ class _LibraryScreenState extends State<LibraryScreen> {
                 ),
               );
             }
-            searchController.addListener(() {
-              setState(() {
-                currentBookList = [searchController.text,...bookList];
-              });
-            },);
+            searchController.addListener(
+              () {
+                setState(() {
+                  currentBookList = [searchController.text, ...bookList];
+                });
+              },
+            );
             return Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
               child: ListTile(
-                onTap: () async {
-                  // file = await firestore.ref().getData();
-                },
+                onTap: showPDF,
                 leading: Icon(
                   Icons.menu_book,
                   color: Theme.of(context).colorScheme.inversePrimary,
@@ -92,7 +104,7 @@ class _LibraryScreenState extends State<LibraryScreen> {
                         color: Theme.of(context).colorScheme.inversePrimary,
                       ),
                 ),
-                tileColor: Theme.of(context).colorScheme.onBackground,
+                tileColor: Theme.of(context).colorScheme.onSurface,
                 shape: RoundedRectangleBorder(
                     side: BorderSide(
                         color: Theme.of(context).colorScheme.primary, width: 2),
